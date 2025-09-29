@@ -95,3 +95,55 @@ insert into hr.emp (
                 from hr.dep
                where name = 'Finance'
            ) );
+
+
+select e.name employees,
+       (
+          select name
+            from hr.dep d
+           where d.deptno = e.deptno
+       ) department,
+       e.job
+  from hr.emp e
+ order by e.name;
+
+select e.name employees,
+       d.name department,
+       e.job,
+       d.location
+  from hr.dep d,
+       hr.emp e
+ where d.deptno = e.deptno (+)
+ order by e.name;
+
+alter table hr.emp add country_code varchar2(2);
+
+update hr.emp
+   set
+   country_code = 'US';
+
+update hr.emp
+   set
+   commission = 2000
+ where name = 'Sam Smith';
+
+select name,
+       country_code,
+       salary,
+       commission
+  from hr.emp
+ order by name;
+
+
+select count(*) employee_count,
+       sum(salary) total_salary,
+       avg(salary) average_salary,
+       min(salary + nvl(
+          commission,
+          0
+       )) lowest_salary,
+       max(salary + nvl(
+          commission,
+          0
+       )) highest_salary
+  from hr.emp;

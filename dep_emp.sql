@@ -27,7 +27,7 @@ begin
       inserting
       and :new.deptno is null
    then
-      :new.deptno := to_number ( sys_guid(),'xxxxxxxxxxxx' );
+      :new.deptno := to_number ( sys_guid(),'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' );
    end if;
 end;
 /
@@ -40,7 +40,58 @@ begin
       inserting
       and :new.empno is null
    then
-      :new.empno := to_number ( sys_guid(),'xxxxxxxxxxxx' );
+      :new.empno := to_number ( sys_guid(),'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' );
    end if;
 end;
 /
+
+insert into hr.dep (
+   name,
+   location
+) values ( 'Finance',
+           'New York' );
+insert into hr.dep (
+   name,
+   location
+) values ( 'Development',
+           'San Jose' );
+
+insert into hr.emp (
+   name,
+   job,
+   salary,
+   deptno
+) values ( 'Sam Smith',
+           'Programmer',
+           5000,
+           (
+              select deptno
+                from hr.dep
+               where name = 'Development'
+           ) );
+insert into hr.emp (
+   name,
+   job,
+   salary,
+   deptno
+) values ( 'Mara Martin',
+           'Analyst',
+           6000,
+           (
+              select deptno
+                from hr.dep
+               where name = 'Finance'
+           ) );
+insert into hr.emp (
+   name,
+   job,
+   salary,
+   deptno
+) values ( 'Yun Yates',
+           'Analyst',
+           5500,
+           (
+              select deptno
+                from hr.dep
+               where name = 'Finance'
+           ) );
